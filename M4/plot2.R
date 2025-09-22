@@ -11,24 +11,27 @@ if (!file.exists("household_power_consumption.txt")) {
 # Read in data
 dt <- fread("household_power_consumption.txt", na.strings = "?", sep = ";")
 
-# Convert Date column to Date class
-dt[, Date := dmy(Date)]
+# Inspect raw Date and Time columns
+print("Raw Date and Time columns:")
+head(dt[, .(Date, Time)])
 
 # Filter for February 1-2, 2007
-dt_filtered <- dt[Date %in% as.Date(c("2007-02-01", "2007-02-02"))]
+dt <- dt[Date %in% c("1/2/2007", "2/2/2007"), ]
 
 # Convert Date and Time to DateTime
-dt_filtered[, DateTime := dmy_hms(paste(Date, Time))]
+dateTime <- dmy_hms(paste(dt$Date, dt$Time, sep = " "), tz = "UTC")
 
 # PNG graphics device
 png("plot2.png", width = 480, height = 480)
 
 # Plot
 plot(
-  dt_filtered$DateTime,
-  dt_filtered$Global_active_power,
+  dateTime,
+  dt$Global_active_power,
   type = "l",
   xlab = "",
   ylab = "Global Active Power (kilowatts)"
 )
+
+# Close device
 dev.off()
