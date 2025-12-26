@@ -112,3 +112,6 @@ with(subset(steps_interval_daytype,day_type =="weekend"),
           xlab = "5-minute interval",
           ylab =" Average steps"))
 ```
+
+This is the assigment for Chapter 5.2 Coursera From JHU. 
+
